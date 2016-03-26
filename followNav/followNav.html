@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>followNav</title>
+	<style>
+	* {
+		padding:0;
+		margin:0;
+		list-style: none;
+		font-family: "microsoft yahei";
+	}
+	.box {
+		width:475px;
+		margin:50px auto 0;
+		position: relative;
+		background: #2e8bb9;
+	}
+	.nav {
+		width:475px;
+		position: relative;
+		background: url("bar.png") no-repeat 0 0;
+	}
+	.nav:before,.nav:after {
+		content:"";
+		display: table;
+		*zoom:1;
+	}
+	.nav:after {
+		clear:both;
+	}
+	.nav dd {
+		float:left;
+		width:95px;
+		height:42px;
+		line-height: 42px;
+		text-align: center;
+		position: relative;
+	}
+	.nav dd a {
+		display: block;
+		width:95px;
+		height:42px;
+		color:#fff;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	.bar {
+		position: absolute;
+		left:0;
+		z-index: 1;
+		width:95px;
+		height:42px;
+		background: #e48e46;
+	}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<dl id="nav" class="nav">
+			<dd class="cur active"><a>首页</a></dd>
+			<dd><a>html</a></dd>
+			<dd><a>css</a></dd>
+			<dd><a>javascript</a></dd>
+			<dd><a>jquery</a></dd>
+		</dl>
+	</div>
+	<script src="jquery.js"></script>
+	<script>
+		$(function(){
+			$(".nav dd").click(function(){
+				$(this).addClass("cur").siblings().removeClass("cur");
+			});
+			$(".nav dd").mouseenter(function(){
+				var $left=$(this).position().left;
+				$(".nav").stop(true,false).animate({"background-position":$left},200);
+			});
+			$(".nav").mouseleave(function(){
+				var $left=$(".cur").position().left;
+				$(".nav").stop(true,false).animate({"background-position":$left},200);
+			});
+		});
+
+/*		//原生JS
+		window.onload=function(){
+
+			function $(id){
+				return typeof id==='string'?document.getElementBy(id):id;
+			}
+			var oList=$(nav).getElementsByTagName('dd');
+			var timer=null;
+			var speed=0;
+			for(var i=0;i<oList.length;i++){
+				oList[i].onclick=function(){
+					for(var j=0;j<oList.length;j++){
+						oList[j].className="";
+					}
+					this.className="cur";
+				}
+				oList[i].id=i;
+				oList[i].onmouseenter=function(){
+					for(var j=0;j<oList.length;j++){
+						if(oList[j].className=='active'){
+							var curIndex=oList[j].id;
+						}
+						oList[j].className='';
+					}
+					this.className='active';
+					var oX=this.offsetWidth*this.id;
+					
+					if(curIndex<this.id){
+						speed=this.offsetWidth*curIndex;
+						clearTimeout(timer);
+						timer=null;
+						timer=setInterval(function(){
+							$(nav).style.backgroundPosition=speed+'px';
+							if(speed>=oX){
+								clearInterval(timer);
+								$(nav).style.backgroundPosition=oX+'px';
+							}
+							speed=speed+10;
+						},5);
+					}
+					else {
+						speed=this.offsetWidth*curIndex;
+						clearTimeout(timer);
+						timer=null;
+						timer=setInterval(function(){
+							$(nav).style.backgroundPosition=speed+'px';
+							if(speed<=oX){
+								clearInterval(timer);
+								$(nav).style.backgroundPosition=oX+'px';
+							}
+							speed=speed-10;
+						},5);
+					}
+				}
+			}
+		}*/
+	</script>
+</body>
+</html>
